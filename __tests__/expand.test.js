@@ -1,18 +1,21 @@
-const { compress } = require('../index');
+const { expand } = require('../index');
 
-describe('compress()', () => {
-  test('returns false if passed a non-array or object', () => {
-    expect(compress(1)).toBe(false);
-    expect(compress('42')).toBe(false);
-    expect(compress(null)).toBe(false);
-    expect(compress(true)).toBe(false);
-    expect(compress(false)).toBe(false);
-    expect(compress(undefined)).toBe(false);
-    expect(compress(NaN)).toBe(false);
-    expect(compress(Infinity)).toBe(false);
+describe('expand()', () => {
+  test('returns false if passed an invalid object', () => {
+    expect(expand(1)).toBe(false);
+    expect(expand('42')).toBe(false);
+    expect(expand(null)).toBe(false);
+    expect(expand(true)).toBe(false);
+    expect(expand(false)).toBe(false);
+    expect(expand(undefined)).toBe(false);
+    expect(expand(NaN)).toBe(false);
+    expect(expand(Infinity)).toBe(false);
+    expect(expand({})).toBe(false);
+    expect(expand({ o: {} })).toBe(false);
+    expect(expand({ v: [] })).toBe(false);
   });
 
-  test('compresses a flat object of unique, primitive values', () => {
+  test('expands a flat object of unique, primitive values', () => {
     const uncompressed = {
       a: 'b',
       c: 'd',
@@ -27,10 +30,10 @@ describe('compress()', () => {
       },
     };
 
-    expect(compress(uncompressed)).toEqual(compressed);
+    expect(expand(compressed)).toEqual(uncompressed);
   });
 
-  test('compresses a flat object containing non-unique, primitive keys/values', () => {
+  test('expands a flat object containing non-unique, primitive keys/values', () => {
     const uncompressed = {
       1: 'a',
       a: 'b',
@@ -47,20 +50,20 @@ describe('compress()', () => {
       },
     };
 
-    expect(compress(uncompressed)).toEqual(compressed);
+    expect(expand(compressed)).toEqual(uncompressed);
   });
 
-  test('compresses a flat array of primitive values', () => {
+  test('expands a flat array of primitive values', () => {
     const uncompressed = ['a', 'b', 'c', 2];
     const compressed = {
       v: ['a', 'b', 'c', 2],
       o: [0, 1, 2, 3],
     };
 
-    expect(compress(uncompressed)).toEqual(compressed);
+    expect(expand(compressed)).toEqual(uncompressed);
   });
 
-  test('compresses a nested object', () => {
+  test('expands a nested object', () => {
     const uncompressed = {
       a: 'b',
       b: {
@@ -77,10 +80,10 @@ describe('compress()', () => {
       },
     };
 
-    expect(compress(uncompressed)).toEqual(compressed);
+    expect(expand(compressed)).toEqual(uncompressed);
   });
 
-  test('compresses a nested array of primitives', () => {
+  test('expands a nested array of primitives', () => {
     const uncompressed = {
       a: 'b',
       b: ['a', 'b', 'c', 'c'],
@@ -93,10 +96,10 @@ describe('compress()', () => {
       },
     };
 
-    expect(compress(uncompressed)).toEqual(compressed);
+    expect(expand(compressed)).toEqual(uncompressed);
   });
 
-  test('compresses a nested array of objects', () => {
+  test('expands a nested array of objects', () => {
     const uncompressed = {
       a: 'b',
       b: [
@@ -116,7 +119,7 @@ describe('compress()', () => {
       },
     };
 
-    expect(compress(uncompressed)).toEqual(compressed);
+    expect(expand(compressed)).toEqual(uncompressed);
   });
 
   test('compresses a nested array of arrays', () => {
@@ -137,6 +140,6 @@ describe('compress()', () => {
       },
     };
 
-    expect(compress(uncompressed)).toEqual(compressed);
+    expect(expand(compressed)).toEqual(uncompressed);
   });
 });

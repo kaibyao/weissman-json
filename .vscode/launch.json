@@ -7,9 +7,19 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "jest --watch",
+      "name": "jest --watchAll",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
-      "args": ["--watch"],
+      "args": ["--watchAll", "--runInBand"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "openOnFirstSessionStart"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "jest (current file)",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["${relativeFile}"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "openOnFirstSessionStart"
     }
