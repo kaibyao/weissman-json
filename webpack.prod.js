@@ -36,7 +36,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'weissman.js',
+    globalObject: 'this',
     library: 'weissman',
-    libraryTarget:'var'
+    libraryTarget:'umd'
   }
 };

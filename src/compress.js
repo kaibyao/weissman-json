@@ -1,5 +1,8 @@
 import indexOf from 'lodash/indexOf';
 
+export { compress };
+export default compress;
+
 /**
  * Compresses an object or array.
  *
@@ -17,7 +20,6 @@ function compress(o, values = [], isNested = false) {
     ? _compressArray(o, values, isNested)
     : _compressObject(o, values, isNested);
 }
-exports.compress = compress;
 
 /**
  * Appends a string or number to the values array and index map if it doesn’t already exist. Returns the index of the value.

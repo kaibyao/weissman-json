@@ -71,6 +71,17 @@ console.log(uncompressed);
 
 ```
 
+## For browser usage too!
+
+```html
+<script src="weissman.js"></script>
+<script>
+  const json = { a: 'b', c: 'd' };
+  const compressed = weissman.default.compress(json);
+  console.log(compressed); //=> { o: { 0: 1, 2: 3 }, v: ['a', 'b', 'c', 'd'] }
+</script>
+```
+
 ## To run tests
 
 ```bash
@@ -80,4 +91,3 @@ yarn run jest
 ## TODO
 
 * Introduce an option for multi-threaded compression.
-* Work on browser-packed version

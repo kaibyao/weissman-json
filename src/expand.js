@@ -1,3 +1,6 @@
+export { expand };
+export default expand;
+
 /**
  * Takes a compressed object and returns the original uncompressed variable.
  *
@@ -26,7 +29,6 @@ function expand(c = {}, v = [], isNested = false) {
     ? _expandArray(o, values)
     : _expandObject(o, values);
 }
-exports.expand = expand;
 
 function _expandArray(o, values) {
   const orig = [];

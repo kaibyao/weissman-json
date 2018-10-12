@@ -24,7 +24,6 @@
       "prettier",
       "eslint --fix",
       "jest --passWithNoTests",
-      "yarn run build",
       "git add"
     ],
     "*.json": [
@@ -54,6 +53,7 @@
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "webworker-threads": "^0.7.17"
   }
 }
