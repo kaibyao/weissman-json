@@ -23,7 +23,8 @@
     "*.js": [
       "prettier",
       "eslint --fix",
-      "jest",
+      "jest --passWithNoTests",
+      "yarn run build",
       "git add"
     ],
     "*.json": [
