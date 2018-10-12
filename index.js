@@ -1,6 +1,12 @@
 function compress(o, values = [], valuesIndexMap = {}, isNested = false) {
-  const compressed = {};
-  const oKeys = Object.keys(o);
+  // isArr determines the behavior of how values are added to the compressed object/array
+  const isArr = Array.isArray(o);
+
+  // the compressed object/array has to be the same type as the original
+  const compressed = isArr ? [] : {};
+
+  // preserve the indexes of arrays as numbers, not strings
+  const oKeys = isArr ? o.map((v, i) => i) : Object.keys(o);
 
   // Navigate through object and store compressed values
   let i;
@@ -14,13 +20,13 @@ function compress(o, values = [], valuesIndexMap = {}, isNested = false) {
       valuesIndexMap[oKey] = values.length - 1;
     }
 
+    const oKeyIndex = valuesIndexMap[oKey];
+
     if (typeof oVal === 'object') {
-      if (Array.isArray(oVal)) {
-        // is array
-        // TO DO
+      if (isArr) {
+        compressed.push(compress(oVal, values, valuesIndexMap, true));
       } else {
-        // is object
-        compressed[valuesIndexMap[oKey]] = compress(oVal, values, valuesIndexMap, true);
+        compressed[oKeyIndex] = compress(oVal, values, valuesIndexMap, true);
       }
     } else {
       if (typeof valuesIndexMap[oVal] === 'undefined') {
@@ -29,7 +35,13 @@ function compress(o, values = [], valuesIndexMap = {}, isNested = false) {
         valuesIndexMap[oVal] = values.length - 1;
       }
 
-      compressed[valuesIndexMap[oKey]] = valuesIndexMap[oVal];
+      const oValIndex = valuesIndexMap[oVal];
+
+      if (isArr) {
+        compressed.push(oValIndex);
+      } else {
+        compressed[oKeyIndex] = oValIndex;
+      }
     }
   }
 

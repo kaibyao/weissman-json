@@ -38,6 +38,12 @@ console.log(compressed);
 */
 ```
 
+## To run tests
+
+```bash
+yarn run jest
+```
+
 ## TODO
 
 * Introduce an option for multi-threaded compression.
