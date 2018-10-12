@@ -23,7 +23,7 @@ const compressed = compress(uncompressed);
 console.log(compressed);
 /*
 {
-  v: ['a', 'b', 'c', 'd', 'e', 'f']
+  v: ['a', 'b', 'c', 'd', 'e', 'f'],
   o: {
     0: 1,
     2: 3,

@@ -12,16 +12,23 @@ function compress(o) {
     const oKey = oKeys[i];
     const oVal = o[oKey];
 
-    values.push(oKey);
-    valuesIndexMap[oKey] = i;
+    if (typeof valuesIndexMap[oKey] === 'undefined') {
+      values.push(oKey);
+      valuesIndexMap[oKey] = values.length - 1;
+    }
 
     if (typeof valuesIndexMap[oVal] === 'undefined') {
       values.push(oVal);
       valuesIndexMap[oVal] = values.length - 1;
     }
 
-    compressed[i] = valuesIndexMap[oVal];
+    compressed[valuesIndexMap[oKey]] = valuesIndexMap[oVal];
   }
+
+  return {
+    v: values,
+    o: compressed
+  };
 }
 
 exports.compress = compress;
