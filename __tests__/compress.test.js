@@ -1,4 +1,4 @@
-const { compress } = require('../index');
+import { compress } from '../src/index';
 
 describe('compress()', () => {
   test('returns false if passed a non-array or object', () => {

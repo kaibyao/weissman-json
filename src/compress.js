@@ -1,4 +1,4 @@
-const indexOf = require('lodash/indexOf');
+import indexOf from 'lodash/indexOf';
 
 /**
  * Compresses an object or array.

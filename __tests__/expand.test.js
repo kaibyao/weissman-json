@@ -1,4 +1,4 @@
-const { expand } = require('../index');
+import { expand } from '../src/index';
 
 describe('expand()', () => {
   test('returns false if passed an invalid object', () => {
