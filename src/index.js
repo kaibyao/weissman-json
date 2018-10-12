@@ -1,2 +1,9 @@
-export { compress } from './compress';
-export { expand } from './expand';
+import { compress } from './compress';
+import { expand } from './expand';
+
+export { compress };
+export { expand };
+
+export default {
+  compress, expand
+};
