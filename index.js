@@ -1,12 +1,75 @@
+/**
+ * Compresses an object or array.
+ *
+ * @param {Object|Any[]} o An object or array
+ * @param {Array.<string|number>} [values=[]] internally used to store the keys and values that have been traversed
+ * @param {Object} [valuesIndexMap={}] internally used to keep track of each key and value’s index in the `values` array
+ * @param {boolean} [isNested=false] internally used to track if a recursively-called instance of the function should return the fully compressed object or just the compressed object
+ * @returns {{ v: Array.<string|number>, o: Object|Any[] }} The compressed version of the original object
+ */
 function compress(o, values = [], valuesIndexMap = {}, isNested = false) {
-  // isArr determines the behavior of how values are added to the compressed object/array
-  const isArr = Array.isArray(o);
+  if (typeof o !== 'object' || o === null) {
+    return false;
+  }
 
-  // the compressed object/array has to be the same type as the original
-  const compressed = isArr ? [] : {};
+  return Array.isArray(o)
+    ? _compressArray(o, values, valuesIndexMap, isNested)
+    : _compressObject(o, values, valuesIndexMap, isNested);
+}
+exports.compress = compress;
+
+/**
+ * Compresses an array.
+ *
+ * @param {Any[]} o An array
+ * @param {Array.<string|number>} [values=[]] internally used to store the keys and values that have been traversed
+ * @param {Object} [valuesIndexMap={}] internally used to keep track of each key and value’s index in the `values` array
+ * @param {boolean} [isNested=false] internally used to track if a recursively-called instance of the function should return the fully compressed object or just the compressed object
+ * @returns {{ v: Array.<string|number>, o: Object|Any[] }} The compressed version of the original object
+ */
+function _compressArray(o, values, valuesIndexMap, isNested) {
+  const compressed = [];
 
   // preserve the indexes of arrays as numbers, not strings
-  const oKeys = isArr ? o.map((v, i) => i) : Object.keys(o);
+  const oKeys = o.map((v, i) => i);
+
+  // Navigate through array and store compressed values
+  let i;
+  for (i = 0; i < oKeys.length; i++) {
+    const oKey = oKeys[i];
+    const oVal = o[oKey];
+
+    // add array key to index map if it doesn't exist
+    _appendToValues(oKey, values, valuesIndexMap);
+
+    if (typeof oVal === 'object') {
+      compressed.push(compress(oVal, values, valuesIndexMap, true));
+    } else {
+      _appendToValues(oVal, values, valuesIndexMap);
+      compressed.push(valuesIndexMap[oVal]);
+    }
+  }
+
+  return isNested
+    ? compressed
+    : {
+        v: values,
+        o: compressed,
+      };
+}
+
+/**
+ * Compresses an array.
+ *
+ * @param {Object} o An object
+ * @param {Array.<string|number>} [values=[]] internally used to store the keys and values that have been traversed
+ * @param {Object} [valuesIndexMap={}] internally used to keep track of each key and value’s index in the `values` array
+ * @param {boolean} [isNested=false] internally used to track if a recursively-called instance of the function should return the fully compressed object or just the compressed object
+ * @returns {{ v: Array.<string|number>, o: Object|Any[] }} The compressed version of the original object
+ */
+function _compressObject(o, values, valuesIndexMap, isNested) {
+  const compressed = {};
+  const oKeys = Object.keys(o);
 
   // Navigate through object and store compressed values
   let i;
@@ -14,41 +77,38 @@ function compress(o, values = [], valuesIndexMap = {}, isNested = false) {
     const oKey = oKeys[i];
     const oVal = o[oKey];
 
-    if (typeof valuesIndexMap[oKey] === 'undefined') {
-      // add object key to index map if it doesn't exist
-      values.push(oKey);
-      valuesIndexMap[oKey] = values.length - 1;
-    }
+    // add object key to index map if it doesn't exist
+    _appendToValues(oKey, values, valuesIndexMap);
 
     const oKeyIndex = valuesIndexMap[oKey];
-
     if (typeof oVal === 'object') {
-      if (isArr) {
-        compressed.push(compress(oVal, values, valuesIndexMap, true));
-      } else {
-        compressed[oKeyIndex] = compress(oVal, values, valuesIndexMap, true);
-      }
+      compressed[oKeyIndex] = compress(oVal, values, valuesIndexMap, true);
     } else {
-      if (typeof valuesIndexMap[oVal] === 'undefined') {
-        // add object value to index map if it doesn't exist
-        values.push(oVal);
-        valuesIndexMap[oVal] = values.length - 1;
-      }
-
-      const oValIndex = valuesIndexMap[oVal];
-
-      if (isArr) {
-        compressed.push(oValIndex);
-      } else {
-        compressed[oKeyIndex] = oValIndex;
-      }
+      // add object value to index map if it doesn't exist
+      _appendToValues(oVal, values, valuesIndexMap);
+      compressed[oKeyIndex] = valuesIndexMap[oVal];
     }
   }
 
-  return isNested ? compressed : {
-    v: values,
-    o: compressed
-  };
+  return isNested
+    ? compressed
+    : {
+        v: values,
+        o: compressed,
+      };
 }
 
-exports.compress = compress;
+/**
+ * Appends a string or number to the values array and index map if it doesn’t already exist.
+ *
+ * @param {String|Number} val
+ * @param {(String|Number)[]} valuesArr
+ * @param {Object} valuesIndexMap
+ */
+function _appendToValues(val, valuesArr, valuesIndexMap) {
+  if (typeof valuesIndexMap[val] === 'undefined') {
+    // add object value to index map if it doesn't exist
+    valuesArr.push(val);
+    valuesIndexMap[val] = valuesArr.length - 1;
+  }
+}
