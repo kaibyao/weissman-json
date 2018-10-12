@@ -1,7 +1,7 @@
 const { compress } = require('../index');
 
 describe('compress()', () => {
-  test('works on a flat object of unique string values', () => {
+  test('compresses a flat object of unique string values', () => {
     const uncompressed = {
       a: 'b',
       c: 'd'
@@ -17,7 +17,7 @@ describe('compress()', () => {
     });
   });
 
-  test('works on a flat object containing non-unique string keys/values', () => {
+  test('compresses a flat object containing non-unique string keys/values', () => {
     const uncompressed = {
       a: 'b',
       b: 'c',
@@ -31,6 +31,26 @@ describe('compress()', () => {
         0: 1,
         1: 2,
         2: 0
+      }
+    });
+  });
+
+  test('compresses a nested object', () => {
+    const uncompressed = {
+      a: 'b',
+      b: {
+        a: 'c'
+      }
+    };
+    const compressed = compress(uncompressed);
+
+    expect(compressed).toEqual({
+      v: ['a', 'b', 'c'],
+      o: {
+        0: 1,
+        1: {
+          0: 2
+        }
       }
     });
   });

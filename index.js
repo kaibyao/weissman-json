@@ -1,9 +1,5 @@
-function compress(o) {
-  // init
-  const values = [];
-  const valuesIndexMap = {};
+function compress(o, values = [], valuesIndexMap = {}, isNested = false) {
   const compressed = {};
-
   const oKeys = Object.keys(o);
 
   // Navigate through object and store compressed values
@@ -13,19 +9,31 @@ function compress(o) {
     const oVal = o[oKey];
 
     if (typeof valuesIndexMap[oKey] === 'undefined') {
+      // add object key to index map if it doesn't exist
       values.push(oKey);
       valuesIndexMap[oKey] = values.length - 1;
     }
 
-    if (typeof valuesIndexMap[oVal] === 'undefined') {
-      values.push(oVal);
-      valuesIndexMap[oVal] = values.length - 1;
-    }
+    if (typeof oVal === 'object') {
+      if (Array.isArray(oVal)) {
+        // is array
+        // TO DO
+      } else {
+        // is object
+        compressed[valuesIndexMap[oKey]] = compress(oVal, values, valuesIndexMap, true);
+      }
+    } else {
+      if (typeof valuesIndexMap[oVal] === 'undefined') {
+        // add object value to index map if it doesn't exist
+        values.push(oVal);
+        valuesIndexMap[oVal] = values.length - 1;
+      }
 
-    compressed[valuesIndexMap[oKey]] = valuesIndexMap[oVal];
+      compressed[valuesIndexMap[oKey]] = valuesIndexMap[oVal];
+    }
   }
 
-  return {
+  return isNested ? compressed : {
     v: values,
     o: compressed
   };
