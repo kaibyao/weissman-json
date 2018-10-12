@@ -44,12 +44,12 @@ describe('compress()', () => {
     });
   });
 
-  test('compresses a flat array of string values', () => {
-    const uncompressed = ['a', 'b', 'c', 'a'];
+  test('compresses a flat array of primitive values', () => {
+    const uncompressed = ['a', 'b', 'c', 2];
 
     expect(compress(uncompressed)).toEqual({
-      v: [0, 'a', 1, 'b', 2, 'c', 3],
-      o: [1, 3, 5, 1],
+      v: ['a', 'b', 'c', 2],
+      o: [0, 1, 2, 3],
     });
   });
 
@@ -79,10 +79,10 @@ describe('compress()', () => {
     };
 
     expect(compress(uncompressed)).toEqual({
-      v: ['a', 'b', 0, 1, 2, 'c', 3],
+      v: ['a', 'b', 'c'],
       o: {
         0: 1,
-        1: [0, 1, 5, 5],
+        1: [0, 1, 2, 2],
       },
     });
   });
@@ -101,10 +101,10 @@ describe('compress()', () => {
     };
 
     expect(compress(uncompressed)).toEqual({
-      v: ['a', 'b', 0, 1, 2, 'd', 3, 'c'],
+      v: ['a', 'b', 'd', 1, 'c'],
       o: {
         0: 1,
-        1: [0, 1, { 5: 3 }, 7],
+        1: [0, 1, { 2: 3 }, 4],
       },
     });
   });
