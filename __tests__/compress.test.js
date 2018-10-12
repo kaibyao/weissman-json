@@ -1,4 +1,5 @@
 import { compress } from '../src/index';
+import { compress as distCompress } from '../dist/weissman';
 
 describe('compress()', () => {
   test('returns false if passed a non-array or object', () => {
@@ -138,5 +139,15 @@ describe('compress()', () => {
     };
 
     expect(compress(uncompressed)).toEqual(compressed);
+  });
+
+  test('minified `compress()` function works', () => {
+    const uncompressed = { a: 1, b: '2'};
+    const compressed = {
+      v: ['a', 1, 'b', '2' ],
+      o: { 0: 1, 2: 3 }
+    };
+
+    expect(distCompress(uncompressed)).toEqual(compressed);
   });
 });

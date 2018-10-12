@@ -77,7 +77,7 @@ console.log(uncompressed);
 <script src="weissman.js"></script>
 <script>
   const json = { a: 'b', c: 'd' };
-  const compressed = weissman.default.compress(json);
+  const compressed = weissman.compress(json);
   console.log(compressed); //=> { o: { 0: 1, 2: 3 }, v: ['a', 'b', 'c', 'd'] }
 </script>
 ```

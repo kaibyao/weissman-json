@@ -1,4 +1,5 @@
 import { expand } from '../src/index';
+import { expand as distExpand } from '../dist/weissman';
 
 describe('expand()', () => {
   test('returns false if passed an invalid object', () => {
@@ -141,5 +142,15 @@ describe('expand()', () => {
     };
 
     expect(expand(compressed)).toEqual(uncompressed);
+  });
+
+  test('minified `expand()` function works', () => {
+    const uncompressed = { a: 1, b: '2'};
+    const compressed = {
+      v: ['a', 1, 'b', '2' ],
+      o: { 0: 1, 2: 3 }
+    };
+
+    expect(distExpand(compressed)).toEqual(uncompressed);
   });
 });
