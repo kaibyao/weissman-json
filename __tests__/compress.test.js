@@ -17,14 +17,16 @@ describe('compress()', () => {
     const uncompressed = {
       a: 'b',
       c: 'd',
-      5: 'a'
+      5: 'a',
+      b: null
     };
     const compressed = {
-      v: ['5', 'a', 'b', 'c', 'd'],
+      v: ['5', 'a', 'b', 'c', 'd', null],
       o: {
         1: 2,
         3: 4,
-        0: 1
+        0: 1,
+        2: 5
       },
     };
 
@@ -52,10 +54,10 @@ describe('compress()', () => {
   });
 
   test('compresses a flat array of primitive values', () => {
-    const uncompressed = ['a', 'b', 'c', 2];
+    const uncompressed = ['a', 'b', 'c', 2, null];
     const compressed = {
-      v: ['a', 'b', 'c', 2],
-      o: [0, 1, 2, 3],
+      v: ['a', 'b', 'c', 2, null],
+      o: [0, 1, 2, 3, 4],
     };
 
     expect(compress(uncompressed)).toEqual(compressed);

@@ -59,7 +59,7 @@ function _compressArray(o, values, isNested) {
     const oKey = oKeys[i];
     const oVal = o[oKey];
 
-    if (typeof oVal === 'object') {
+    if (typeof oVal === 'object' && oVal !== null) {
       compressed.push(compress(oVal, values, true));
     } else {
       const valIndex = _appendToValues(oVal, values);
@@ -96,7 +96,7 @@ function _compressObject(o, values, isNested) {
     // add object key to index map if it doesn't exist
     const oKeyIndex = _appendToValues(oKey, values);
 
-    if (typeof oVal === 'object') {
+    if (typeof oVal === 'object' && oVal !== null) {
       compressed[oKeyIndex] = compress(oVal, values, true);
     } else {
       // add object value to index map if it doesn't exist

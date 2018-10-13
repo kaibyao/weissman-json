@@ -3,6 +3,8 @@ const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+  devtool: 'source-map',
+
 	module: {
 		rules: [
 			{
@@ -17,7 +19,9 @@ module.exports = {
 	mode: 'production',
 
 	optimization: {
-    minimizer: [new UglifyJsPlugin()],
+    minimizer: [new UglifyJsPlugin({
+      sourceMap: true
+    })],
 		splitChunks: {
 			cacheGroups: {
 				vendors: {
