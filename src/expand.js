@@ -32,13 +32,9 @@ function expand(c = {}, v = [], isNested = false) {
 
 function _expandArray(o, values) {
   const orig = [];
-  // const oKeys = o.map((_v, i) => i);
 
   let i;
   for (i = 0; i < o.length; i++) {
-    // const oKey = oKeys[i];
-    // const key = values[oKey];
-    // const oVal = o[oKey];
     const val = typeof o[i] === 'object' ? expand(o[i], values, true) : values[o[i]];
 
     orig[i] = val;

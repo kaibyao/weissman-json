@@ -1,5 +1,3 @@
-import indexOf from 'lodash/indexOf';
-
 export { compress };
 export default compress;
 
@@ -29,14 +27,23 @@ function compress(o, values = [], isNested = false) {
  * @returns {Number} The index of the value
  */
 function _appendToValues(val, valuesArr) {
-  const i = indexOf(valuesArr, val);
+  if (isNaN(val) && typeof val === 'number') {
+    if (!valuesArr.indexNaN) {
+      valuesArr.push(val);
+      valuesArr.indexNaN = valuesArr.length - 1;
+    }
 
-  if (i === -1) {
-    valuesArr.push(val);
-    return valuesArr.length - 1;
+    return valuesArr.indexNaN;
+  } else {
+    const i = valuesArr.indexOf(val);
+
+    if (i === -1) {
+      valuesArr.push(val);
+      return valuesArr.length - 1;
+    }
+
+    return i;
   }
-
-  return i;
 }
 
 /**

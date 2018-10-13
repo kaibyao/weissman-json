@@ -18,19 +18,21 @@ describe('compress()', () => {
       a: 'b',
       c: 'd',
       5: 'a',
-      b: null
+      b: null,
+      d: NaN
     };
     const compressed = {
-      v: ['5', 'a', 'b', 'c', 'd', null],
+      v: ['5', 'a', 'b', 'c', 'd', null, NaN],
       o: {
         1: 2,
         3: 4,
         0: 1,
-        2: 5
+        2: 5,
+        4: 6
       },
     };
 
-    expect(compress(uncompressed)).toEqual(compressed);
+    expect(JSON.stringify(compress(uncompressed))).toEqual(JSON.stringify(compressed));
   });
 
   test('compresses a flat object containing non-unique, primitive keys/values', () => {
