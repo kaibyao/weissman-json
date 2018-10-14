@@ -19,16 +19,18 @@ describe('compress()', () => {
       c: 'd',
       5: 'a',
       b: null,
-      d: NaN
+      d: NaN,
+      e: true
     };
     const compressed = {
-      v: ['5', 'a', 'b', 'c', 'd', null, NaN],
+      v: ['5', 'a', 'b', 'c', 'd', null, NaN, 'e', true],
       o: {
         1: 2,
         3: 4,
         0: 1,
         2: 5,
-        4: 6
+        4: 6,
+        7: 8
       },
     };
 
@@ -52,7 +54,7 @@ describe('compress()', () => {
       },
     };
 
-    expect(compress(uncompressed)).toEqual(compressed);
+    expect(JSON.stringify(compress(uncompressed))).toEqual(JSON.stringify(compressed));
   });
 
   test('compresses a flat array of primitive values', () => {
