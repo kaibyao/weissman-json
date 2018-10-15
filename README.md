@@ -92,6 +92,10 @@ The (compressed and then) expanded JSON will match the original, uncompressed JS
 
 If for some reason you need the order of the keys to match, don’t use this library.
 
+## Why another JSON compression tool?
+
+The ones I’ve tried don’t offer the same level of simplicity, compression, or speed. This tool can compress a 55MB json file down to 28MB in ~1000ms on my Macbook Pro, which was my use case. Also, there’s only two functions to know in order to be productive: `compress()`, and `expand()`. That’s it.
+
 ## To run tests
 
 ```bash
