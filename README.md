@@ -2,6 +2,10 @@
 
 A JSON compression library.
 
+```bash
+yarn add weissman-json
+```
+
 ## What it does
 
 This library recursively scans an object, takes every key and value and stores them into an array, and replaces them with their array index.
