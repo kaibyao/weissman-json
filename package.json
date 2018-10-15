@@ -1,6 +1,6 @@
 {
   "name": "weissman-json",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "A JSON compression library. Said to achieve the theoretical score of 5.2.",
   "main": "dist/weissman.js",
   "homepage": "https://github.com/kaibyao/weissman-json",
