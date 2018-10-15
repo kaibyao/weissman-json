@@ -11,7 +11,8 @@
   "keywords": [
     "json",
     "compress",
-    "compression"
+    "compression",
+    "weissman"
   ],
   "bugs": "https://github.com/kaibyao/weissman-json/issues",
   "husky": {
