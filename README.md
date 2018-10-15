@@ -82,6 +82,12 @@ console.log(uncompressed);
 </script>
 ```
 
+## Some caveats
+
+The (compressed and then) expanded JSON will match the original, uncompressed JSON in keys and values, but the keys will not necessarily be in the same order as in the original JSON.
+
+If for some reason you need the order of the keys to match, don’t use this library.
+
 ## To run tests
 
 ```bash
