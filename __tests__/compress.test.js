@@ -16,21 +16,87 @@ describe('compress()', () => {
   test('compresses a flat object of unique, primitive values', () => {
     const uncompressed = {
       a: 'b',
-      c: 'd',
-      5: 'a',
-      b: null,
-      d: NaN,
-      e: true
+      c: 'd'
     };
     const compressed = {
-      v: ['5', 'a', 'b', 'c', 'd', null, NaN, 'e', true],
+      v: ['a', 'b', 'c', 'd'],
       o: {
+        0: 1,
+        2: 3
+      },
+    };
+
+    expect(compress(uncompressed)).toEqual(compressed);
+  });
+
+  test('number values/keys do not overwrite', () => {
+    const uncompressed = {
+      5: 'a',
+      b: 5,
+      c: '5',
+      '1.2': 'a',
+      d: 1.2
+    };
+    const compressed = {
+      v: ['5', 'a', 'b', 5, 'c', '1.2', 'd', 1.2],
+      o: {
+        0: 1,
+        2: 3,
+        4: 0,
+        5: 1,
+        6: 7
+      },
+    };
+
+    expect(compress(uncompressed)).toEqual(compressed);
+  });
+
+  test('null values/keys do not overwrite', () => {
+    const uncompressed = {
+      null: 'a',
+      a: null
+    };
+    const compressed = {
+      v: ['null', 'a', null],
+      o: {
+        0: 1,
+        1: 2
+      },
+    };
+
+    expect(compress(uncompressed)).toEqual(compressed);
+  });
+
+  test('booleans do not overwrite', () => {
+    const uncompressed = {
+      true: 'a',
+      a: true,
+      false: 'b',
+      b: false
+    };
+    const compressed = {
+      v: ['true', 'a', true, 'false', 'b', false],
+      o: {
+        0: 1,
         1: 2,
         3: 4,
+        4: 5
+      },
+    };
+
+    expect(compress(uncompressed)).toEqual(compressed);
+  });
+
+  test('NaN is respected', () => {
+    const uncompressed = {
+      a: NaN,
+      NaN: 'a'
+    };
+    const compressed = {
+      v: ['a', NaN, 'NaN'],
+      o: {
         0: 1,
-        2: 5,
-        4: 6,
-        7: 8
+        2: 0
       },
     };
 

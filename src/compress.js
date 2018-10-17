@@ -20,8 +20,14 @@ function compress(
   o,
   values = [],
   indexMap = {
-    indexes: { nan: -1, number: {}, other: {} },
-    typeMap: { number: 'number', object: 'other', string: 'other', undefined: 'other', boolean: 'other' },
+    indexes: { nan: -1, number: {}, string: {}, other: {} },
+    typeMap: {
+      number: 'number',
+      string: 'string',
+      object: 'other', // null
+      undefined: 'other',
+      boolean: 'other',
+    },
   },
   isNested = false
 ) {
